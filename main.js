@@ -49,7 +49,7 @@ function start () {
 
   board.appendChild(fragment)
 
-  board.addEventListener('mousedown', mouseDown, false)
+  board.addEventListener('mouseup', mouseDown, false)
   board.addEventListener('contextmenu', prevent, false)
   board.addEventListener('click', clickSquare, false)
   flagger.addEventListener('click', toggleFlagger, false)
@@ -78,7 +78,7 @@ function start () {
 
       if (!item.cleared) {
         item.dirty = true
-        item.flagged = !table[y][x].flagged
+        item.flagged = !item.flagged
         item.flagged ? missingBombs-- : missingBombs++
       }
 
@@ -95,15 +95,20 @@ function start () {
       table = mapTable(generate(x, y, HEIGHT, WIDTH, BOMBS))
     }
 
-    if (table[y][x].flagged) {
-      return
+    const item = table[y][x]
+
+    if (item.cleared) {
+      reveal(x, y)
+      return false
     }
 
-    if (table[y][x].cleared) {
-      reveal(x, y)
+    if (item.flagged) {
+      return false
     }
 
     show(x, y)
+
+    return false
   }
 
   function winGame () {

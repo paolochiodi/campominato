@@ -53,10 +53,6 @@ body {
   border: outset 1px #eee;
 }
 
-#flagger.active {
-  border: inset; 1px #eee;
-}
-
 #face {
   width: var(--score-height);
 }
