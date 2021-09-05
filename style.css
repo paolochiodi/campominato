@@ -46,6 +46,7 @@ body {
 #flagger {
   font-size: 30px;
   width: var(--score-height);
+  text-align: center;
 
   cursor: pointer;
   background: #fff;
@@ -84,7 +85,6 @@ body {
   --webkit-user-select: none;
   user-select: none;
 
-
   cursor: pointer;
 }
 
@@ -98,6 +98,7 @@ body {
 
 .bomb {
   background: red;
+  border-radius: 3px;
 }
 
 .level-1 {
