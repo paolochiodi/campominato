@@ -53,6 +53,10 @@ body {
   border: outset 1px #eee;
 }
 
+#flagger.active {
+  border: inset 1px #eee;
+}
+
 #face {
   width: var(--score-height);
 }
@@ -82,10 +86,6 @@ body {
   user-select: none;
 
   cursor: pointer;
-}
-
-#board div:not(.flagged):active {
-  border-width: 0px;
 }
 
 #board div.cleared {
@@ -134,9 +134,8 @@ body {
 }
 
 .flagged:after {
-  content: '🛡';
-  /*content: '🚩';*/
-  /*content: '📍';*/
+  /*content: '🛡';*/
+  content: '🚫';
   display: block;
 
   margin: -2px 0 0 -2px;
