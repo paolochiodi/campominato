@@ -36,7 +36,6 @@ body {
   line-height: var(--score-height);
   text-align: center;
   font-size: 30px;
-  /*width: 3.5em;*/
 }
 
 #bombs, #timer {
@@ -44,17 +43,19 @@ body {
 }
 
 #flagger {
+  padding: 0;
+  margin: 0;
   font-size: 30px;
   width: var(--score-height);
   text-align: center;
 
   cursor: pointer;
   background: #fff;
-  border: outset 1px #eee;
+  border: outset 2px #eee;
 }
 
 #flagger.active {
-  border: inset 1px #eee;
+  border: inset 2px #eee;
 }
 
 #face {
