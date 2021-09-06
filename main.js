@@ -3,11 +3,6 @@ const WIDTH = 8
 const BOMBS = 10
 const WIN_LEVEL = HEIGHT * WIDTH - BOMBS
 
-function prevent (ev) {
-  ev.preventDefault()
-  return false
-}
-
 function mapTable(origin) {
   const result = []
   for (let y = 0; y < HEIGHT; y++) {
@@ -49,8 +44,7 @@ function start () {
 
   board.appendChild(fragment)
 
-  board.addEventListener('mouseup', mouseDown, false)
-  board.addEventListener('contextmenu', prevent, false)
+  board.addEventListener('contextmenu', rightClick, false)
   board.addEventListener('click', clickSquare, false)
   flagger.addEventListener('click', toggleFlagger, false)
 
@@ -66,24 +60,26 @@ function start () {
     flaggerActive = !flaggerActive
   }
 
-  function mouseDown (ev) {
-    if (flaggerActive || ev.which === 3) {
-      ev.preventDefault()
-      ev.stopPropagation()
-      ev.cancelBubble = true
-
-      const x = parseInt(ev.target.getAttribute('data-x'), 10)
-      const y = parseInt(ev.target.getAttribute('data-y'), 10)
-      const item = table[y][x]
-
-      if (!item.cleared) {
-        item.dirty = true
-        item.flagged = !item.flagged
-        item.flagged ? missingBombs-- : missingBombs++
-      }
-
-      return false
+  function flagItem (item) {
+    if (!item.cleared) {
+      item.dirty = true
+      item.flagged = !item.flagged
+      item.flagged ? missingBombs-- : missingBombs++
     }
+  }
+
+  function rightClick (ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
+    ev.cancelBubble = true
+
+    const x = parseInt(ev.target.getAttribute('data-x'), 10)
+    const y = parseInt(ev.target.getAttribute('data-y'), 10)
+    const item = table[y][x]
+
+    flagItem(item)
+
+    return false
   }
 
   function clickSquare (ev) {
@@ -93,12 +89,19 @@ function start () {
     if (!table) {
       startTime = Date.now()
       table = mapTable(generate(x, y, HEIGHT, WIDTH, BOMBS))
+      show(x, y)
+      return
     }
 
     const item = table[y][x]
 
     if (item.cleared) {
       reveal(x, y)
+      return false
+    }
+
+    if (flaggerActive) {
+      flagItem(item)
       return false
     }
 
