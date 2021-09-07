@@ -1,0 +1,12 @@
+<svg version="1.1" width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <g
+    font-family="Arial"
+    font-weight="Bold"
+    font-size="180"
+    text-anchor="middle"
+  >
+    <text x="300" y="160" fill="blue">1</text>
+    <text x="100" y="360" fill="green">2</text>
+    <text x="300" y="360" fill="red">3</text>
+  </g>
+</svg>

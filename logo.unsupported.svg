@@ -1,0 +1,27 @@
+<svg version="1.1" width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <g
+    font-family="Arial"
+    font-weight="Bold"
+    font-size="180"
+    text-anchor="middle"
+    fill="blue"
+  >
+    <text x="100" y="160">1</text>
+    <text x="300" y="160">1</text>
+    <text x="100" y="360">1</text>
+  </g>
+    <rect
+      x="200"
+      y="200"
+      width="200"
+      height="200"
+      fill="red"
+      rx="20"
+    />
+    <text
+      x="300"
+      y="362"
+      font-size="165"
+      text-anchor="middle"
+    >💣</text>
+</svg>
