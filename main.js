@@ -47,14 +47,37 @@ function start () {
   board.addEventListener('contextmenu', rightClick, false)
   board.addEventListener('click', clickSquare, false)
   flagger.addEventListener('click', toggleFlagger, false)
+  face.addEventListener('click', clickRestart, false)
 
-  let table = null
-  let lost = false
-  let won = false
-  let startTime = null
-  let missingBombs = BOMBS
-  let cleared = 0
+  let table, started, lost, won, startTime, missingBombs, cleared, faceDirty
   let flaggerActive = false
+
+  init()
+
+  function init () {
+    console.log('restart')
+    started = false
+    table = null
+    lost = false
+    won = false
+    faceDirty = true
+    startTime = null
+    missingBombs = BOMBS
+    cleared = 0
+
+    const list = board.querySelectorAll('div')
+    for (const child of list) {
+      child.className = ''
+      child.innerText = ''
+    }
+
+    renderHeader()
+  }
+
+  function clickRestart () {
+    console.log('click')
+    init()
+  }
 
   function toggleFlagger () {
     flaggerActive = !flaggerActive
@@ -90,6 +113,8 @@ function start () {
       startTime = Date.now()
       table = mapTable(generate(x, y, HEIGHT, WIDTH, BOMBS))
       show(x, y)
+      started = true
+      window.requestAnimationFrame(render)
       return
     }
 
@@ -116,6 +141,7 @@ function start () {
 
   function winGame () {
     won = true
+    faceDirty = true
     missingBombs = 0
     for (let y = 0; y < HEIGHT; y++) {
       for (let x = 0; x < WIDTH; x++) {
@@ -130,6 +156,7 @@ function start () {
 
   function looseGame () {
     lost = true
+    faceDirty = true
   }
 
   function show(x, y) {
@@ -240,15 +267,23 @@ function start () {
     }
   }
 
-  function render () {
+  function renderHeader () {
     flagger.classList.toggle('active', flaggerActive)
     bombCounter.innerText = String(Math.max(missingBombs, 0)).padStart(3, '0')
     timer.innerText = startTime ? String(Math.min(Math.round((Date.now() - startTime)/ 1000), 999)).padStart(3, '0') : '000'
-    face.innerText = won
-      ? '😎'
-      : lost
-        ? '😭'
-        : '😀'
+
+    if (faceDirty) {
+      face.innerText = won
+        ? '😎'
+        : lost
+          ? '😭'
+          : '😀'
+      faceDirty = false
+    }
+  }
+
+  function render () {
+    renderHeader()
 
     if (table) {
       for (let y = 0; y < HEIGHT; y++) {
@@ -291,11 +326,12 @@ function start () {
       return
     }
 
-
-    window.requestAnimationFrame(render)
+    if (started) {
+      window.requestAnimationFrame(render)
+    }
   }
 
-  window.requestAnimationFrame(render)
+  // window.requestAnimationFrame(render)
 }
 
 if (document.readyState != 'loading') {
